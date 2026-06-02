@@ -1,0 +1,77 @@
+library IEEE;
+use IEEE.STD_LOGIC_1164.ALL;
+
+
+--the type of this shift register is Combination of:
+		-- // in serial out SR : 
+		-- serial in // out SR
+
+
+
+
+
+entity SPI_ShiftRegister is
+			
+			
+			port(
+			
+				-- input
+				data_Tx      : in std_logic_vector(15 downto 0); --input data from the fpga
+				clk 		 : in std_logic;
+				reset        : in std_logic;
+				shift_enable : in std_logic; -- controler from the FSM
+				SCLK 		 : in std_logic;
+				MISO 		 : in std_logic; -- from        in std_logic;
+				
+					 
+				--outputs    
+				MOSI 		 : out std_logic;
+				data_Rx 	 :out std_logic_vector(15 downto 0)
+			);
+end SPI_ShiftRegister;
+
+architecture SPI_SR_RTL of SPI_ShiftRegister is
+
+		signal shift_register : std_logic_vector(15 downto 0);
+		signal sclk_delayed   : std_logic; -- To detect the edge of SCLK
+        signal sclk_rising    : std_logic;
+		
+		begin
+		
+			
+			process(clk, reset)
+				begin
+			if reset = '1' then
+				sclk_delayed <= '0';
+			elsif rising_edge(clk) then
+				sclk_delayed <= SCLK;
+			end if;
+			end process;
+		
+		sclk_rising <= '1' when (SCLK = '1' and sclk_delayed = '0') else '0';
+		
+		process(clk, reset)
+			begin
+				-- reset eveything
+				if reset = '1' then 
+					shift_register <= (others => '0');
+				elsif rising_edge(clk) then
+					--must the shift enable must be 1 to start shifting the bits
+					if shift_enable = '1' then  -- start shifting 
+						--shift left; MSB new bit leve the mosi
+						--Then the bit enter the sensor or any peripheral
+						--Finaly the usable data comes from the sensor and enter the MISO line the LSB,
+						if sclk_rising = '1' then 
+							shift_register <= shift_register(14 downto 0) & MISO;
+						end if;	
+						-- If sclk_rising is 0, it HOLDS the current value
+					else
+						shift_register <= data_Tx; -- if there are no shifting so keep loading data to tx line... from FPGA 
+					end if;	
+				end if;	
+		end process;
+		
+		MOSI <= shift_register(15);
+		data_Rx <= shift_register;
+		
+end SPI_SR_RTL;
