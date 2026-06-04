@@ -53,7 +53,7 @@ The entire system is designed around a unified master clock domain to ensure str
     3. Submodule Interconnect Topology
         This view shows the physical hardware connections between the FSM, Bit Counter, Shift Register, and Clock Prescaler within each channel. This interconnect network guarantees zero-latency internal communication:
 
-![Description](images/modelsim_waveform.png)
+![Description](images/rtl_Subblocks.png)
 
     -----
 ![Description](images/rtl_master_connections.png)
