@@ -48,23 +48,23 @@ The entire system is designed around a unified master clock domain to ensure str
     2. Inner-Core Modular Layout
         Each master channel is isolated structurally to preserve signal integrity and modularity. This structural representation highlights the individual master block instantiation:   
 
-images/rtl_master_core_detail.png
+![Description](images/rtl_master_core_detail.png)
 
     3. Submodule Interconnect Topology
         This view shows the physical hardware connections between the FSM, Bit Counter, Shift Register, and Clock Prescaler within each channel. This interconnect network guarantees zero-latency internal communication:
 
-images/modelsim_simulation.png
+![Description](images/modelsim_waveform.png)
 
     -----
-c:\Users\Haidar\Documents\SPI-Implementation\images\rtl_master_connections.png
-images/rtl_parallel_system.png
+![Description](images/rtl_master_connections.png)
+![Description](images/rtl_parallel_system.png)
 
 
 📊 Behavioral Simulation & Verification
 
     To validate multi-channel synchronization, loopback stability, and phase-lock accuracy, a structural testbench was executed in ModelSim.
 
-images/modelsim_waveform.png
+![Description](images/modelsim_waveform.png)
 
 
     Waveform Analysis & Timing Milestones:
