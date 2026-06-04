@@ -53,10 +53,10 @@ images/rtl_master_core_detail.png
     3. Submodule Interconnect Topology
         This view shows the physical hardware connections between the FSM, Bit Counter, Shift Register, and Clock Prescaler within each channel. This interconnect network guarantees zero-latency internal communication:
 
-        images/modelsim_simulation.png
+images/modelsim_simulation.png
 
     -----
-images/rtl_master_connections.png
+c:\Users\Haidar\Documents\SPI-Implementation\images\rtl_master_connections.png
 images/rtl_parallel_system.png
 
 
